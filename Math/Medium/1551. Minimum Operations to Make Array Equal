@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int minOperations(int n) {
+        return n*n/4;
+    }
+};
+
+class Solution {
+public:
+    int minOperations(int n) {
+        int arr[n];
+        int count=0;
+
+        for(int i =0;i<n;i++){
+            arr[i]=2*i+1;
+            while(arr[i]<n){
+                arr[i]++;
+                count++;
+            }
+        }
+        return count;
+    }
+};
