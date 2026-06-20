@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int countCompleteSubarrays(vector<int>& nums) {
+        int l=0,r=0;
+        int count=0 , n = nums.size();
+        unordered_map<int,int> mp;
+        for(int x:nums){
+            mp[x]++;
+        }
+        int totalDistinct = mp.size();
+        unordered_map<int,int> mpp;
+        while(r<n){
+            mpp[nums[r]]++;
+            while(mpp.size()==totalDistinct){
+                count+=(n-r);
+                mpp[nums[l]]--;
+                if(mpp[nums[l]] == 0){
+                    mpp.erase(nums[l]);
+                }
+                l++;
+            }
+            r++;
+        }
+        return count;
+    }
+};
