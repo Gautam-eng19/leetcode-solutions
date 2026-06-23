@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int minCost(int n) {
+        int sum =0;
+        while(n>1){
+            int cost =n-1;
+            sum+=cost;
+            n--;
+        }
+        return sum;
+    }
+};
