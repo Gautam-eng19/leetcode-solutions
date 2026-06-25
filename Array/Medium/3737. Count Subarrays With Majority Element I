@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int countMajoritySubarrays(vector<int>& nums, int target) {
+        int freq = 0;
+        int n = nums.size();
+        int count=0,l=0,r=0;
+        while(l<n){
+            if(nums[r]==target){
+                freq++;
+            }
+            if(freq>(r-l+1)/2){
+                count++;
+            }
+            
+            r++;
+            if(r==n){
+                freq=0;
+                l++;
+                r=l;
+            }
+        }
+        return count;
+    }
+};
