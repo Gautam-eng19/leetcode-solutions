@@ -1,0 +1,52 @@
+class Solution {
+public:
+    long long ans=0;
+    void mergeSort(vector<int>& pref , int l ,int r){
+        if(l>=r) return;
+        int mid = (l+r)/2;
+        mergeSort(pref,l,mid);
+        mergeSort(pref,mid+1,r);
+
+        int j = mid +1;
+        for(int i =l;i<=mid;i++){
+            while(j<=r&&pref[j]<=pref[i]){
+                j++;
+            }
+            ans+=(r-j+1);
+        }
+
+        vector<int> temp;
+        int i = l;
+        j=mid+1;
+
+        while(i<=mid&&j<=r){
+            if(pref[i]<=pref[j]){
+                temp.push_back(pref[i++]);
+            }else{
+                temp.push_back(pref[j++]);
+            }
+        }
+
+        while(i<=mid){
+            temp.push_back(pref[i++]);
+        }
+        while(j<=r){
+            temp.push_back(pref[j++]);
+        }
+
+        for(int k=l;k<=r;k++){
+            pref[k]=temp[k-l];
+        }
+    }
+
+    long long countMajoritySubarrays(vector<int>& nums, int target) {
+        int n = nums.size();
+        vector<int> pref(n+1,0);
+        for(int i=0;i<n;i++){
+            pref[i+1]=pref[i] + (nums[i]==target? 1:-1);
+        }
+
+        mergeSort(pref,0,n);
+        return ans;
+    }
+};
