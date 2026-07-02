@@ -1,0 +1,45 @@
+#1st method--
+
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        vector<int>pos;
+        vector<int>neg;
+        int n = nums.size();
+        for(int i =0;i<n;i++){
+            if(nums[i]>=0){
+                pos.push_back(nums[i]);
+            }else{
+                neg.push_back(nums[i]);
+            }
+        }
+        vector<int> rearranged;
+        for(int i=0;i<n/2;i++){
+            rearranged.push_back(pos[i]);
+            rearranged.push_back(neg[i]);
+        }
+        return rearranged;
+    }
+};
+
+#2nd method--
+
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+       int n = nums.size();
+       vector<int> rearrange(n);
+       int pos =0,neg = 1;
+       for(int x : nums){
+            if(x>=0){
+                rearrange[pos]=x;
+                pos+=2;
+            }
+            else{
+                rearrange[neg]=x;
+                neg+=2;
+            }
+       }
+       return rearrange;
+    }
+};
