@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int partitionArray(vector<int>& nums, int k) {
+        sort(nums.begin(),nums.end());
+        int n = nums.size();
+        int count=0;
+        for(int i =0;i<n;i++){
+            int j=i;
+            while(j<n&&nums[j]-nums[i]<=k){
+                j++;
+            }
+            count++;
+            i=j-1;
+        }
+        return count;
+    }
+};
