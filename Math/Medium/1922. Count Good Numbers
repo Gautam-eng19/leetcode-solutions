@@ -1,0 +1,28 @@
+class Solution {
+public:
+
+    long long mod = 1e9+7;
+
+    long long power(long long base , long long exp){
+        long long ans = 1;
+
+        while(exp>0){
+            if(exp%2==1){
+                ans = (ans*base) % mod;
+            }
+            base = (base*base) % mod;
+            exp = exp/2;
+        }
+        return ans;
+    }
+
+    int countGoodNumbers(long long n) {
+        long long evenPosition = (n+1)/2;
+        long long oddPosition = n/2;
+
+        long long even = power(5,evenPosition);
+        long long odd = power(4,oddPosition);
+
+        return (even*odd)%mod; 
+    }
+};
