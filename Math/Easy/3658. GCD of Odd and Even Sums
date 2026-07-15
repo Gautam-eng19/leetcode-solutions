@@ -1,0 +1,26 @@
+class Solution {
+public:
+
+    int GCD(int n , int m){
+        int gcd=0,p=0,q=0;
+        for(int i=1 ; i<=m/2 ; i++){
+            if(n%i==0){
+                p=i;
+            }
+            if(m%i==0){
+                q=i;
+            }
+            if(p==q){
+                gcd=p;
+            }
+        }
+        return gcd;
+    }
+
+    int gcdOfOddEvenSums(int n) {
+        int sumOdd = n*n;
+        int sumEven = n*(n+1);
+
+        return GCD(sumOdd,sumEven);
+    }
+};
