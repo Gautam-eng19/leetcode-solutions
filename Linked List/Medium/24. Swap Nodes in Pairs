@@ -1,0 +1,75 @@
+1st method -- without recursion
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        ListNode* curr = head;
+        ListNode* prev = NULL;
+        ListNode* next = NULL;
+        ListNode* newHead = NULL;
+        ListNode* prevTail = NULL;
+        ListNode* tail = NULL;
+        while(curr!=NULL){
+            int k = 0;
+            prev = NULL;
+            tail = curr;
+            while(k<2&&curr!=NULL){
+                next = curr->next;
+                curr->next = prev;
+                prev = curr;
+                curr = next;
+                k++;
+            }
+
+            if(newHead == NULL){
+                newHead = prev;
+            }
+
+            if(prevTail!=NULL){
+                prevTail->next = prev;
+            }
+
+            prevTail = tail;
+            tail->next = curr;
+        }
+        return newHead;
+    }
+};
+
+2nd method -- using recursion
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if(head == NULL || head->next == NULL){
+            return head;
+        }
+        ListNode* first = head;
+        ListNode* second = head->next;
+
+        first->next = swapPairs(second->next);
+
+        second->next = first;
+        return second;
+    }
+};
