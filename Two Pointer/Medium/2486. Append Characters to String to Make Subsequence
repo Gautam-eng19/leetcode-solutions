@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int appendCharacters(string s, string t) {
+        int ls = 0, lt=0;
+        int n = s.size();
+        int m = t.size();
+        int count =0;
+        while(ls<n&&lt<m){
+            if(s[ls]==t[lt]){
+                ls++;
+                lt++;
+            }else{
+                ls++;
+            }
+        }
+        while(lt<m){
+            count++;
+            lt++;
+        }
+
+        return count;
+    }
+};
