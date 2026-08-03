@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> findEvenNumbers(vector<int>& digits) {
+        vector<int>freq(10,0);
+        for(int i=0;i<digits.size();i++){
+            freq[digits[i]]++;
+        }
+        vector<int> ans;
+        for(int i =100 ; i<=998 ; i+=2){
+            vector<int>need(10,0);
+            int num=i;
+            need[num%10]++;
+            num/=10;
+            need[num%10]++;
+            num/=10;
+            need[num%10]++;
+            
+            bool ok = true;
+
+            for(int i=0;i<10;i++){
+                if(need[i]>freq[i]){
+                    ok = false;
+                    break;
+                }
+            }
+            if(ok){
+                ans.push_back(i);
+            }
+
+        }
+        return ans;
+    }
+};
