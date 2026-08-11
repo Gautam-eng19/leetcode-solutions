@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int missingInteger(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<int,int> freq;
+        for(int x:nums){
+            freq[x]++;
+        }
+        int r=1;
+        int sum=nums[0];
+
+        while(r<n&&nums[r]==nums[r-1]+1){
+            sum+=nums[r];
+            r++;
+        }
+
+        while(freq[sum]>0){
+            sum++;
+        }
+        return sum;
+    }
+};
