@@ -1,3 +1,5 @@
+1~~
+
 class Solution {
 public:
     int maxIceCream(vector<int>& costs, int coins) {
@@ -11,5 +13,45 @@ public:
             count++;
         }
         return count;
+    }
+};
+
+
+
+2~~
+
+class Solution {
+public:
+
+    vector<int> Counting(vector<int>&costs){
+        int maxE = *max_element(costs.begin(),costs.end());
+        vector<int> count (maxE+1 , 0);
+
+        for(int x : costs){
+            count[x]++;
+        }
+
+        int index=0;
+        for(int i =0 ; i<=maxE ; i++){
+            while(count[i]>0){
+                costs[index]=i;
+                index++;
+                count[i]--;
+            }
+        }
+
+        return costs;
+    }
+
+    int maxIceCream(vector<int>& costs, int coins) {
+        int n = costs.size();
+        Counting(costs);
+        int count=0,i=0;
+        while(i<n&&coins>=costs[i]){
+            coins= coins-costs[i];
+            count++;
+            i++;
+        }  
+        return count;  
     }
 };
