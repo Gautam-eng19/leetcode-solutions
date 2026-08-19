@@ -1,0 +1,70 @@
+1~~
+
+class Solution {
+public:
+
+    int waviness(int x){
+        vector<int>dp;
+        while(x>0){
+            dp.push_back(x%10);
+            x/=10;
+        }
+        if(dp.size()<3){
+            return 0;
+        }
+        int ans=0;
+        for(int i=1 ; i<dp.size()-1 ; i++){
+            if(dp[i]>dp[i-1] && dp[i]>dp[i+1] || dp[i]<dp[i-1] && dp[i]<dp[i+1]){
+                ans++;
+            }
+        }
+
+        return ans;
+    }
+
+    int totalWaviness(int num1, int num2) {
+        int ans=0;
+        for(int i=num1 ; i<=num2;i++){
+            ans+=waviness(i);
+        }
+        return ans;
+    }
+};
+
+
+2~~
+
+class Solution {
+public:
+
+    int waviness(int x){
+        int ans=0;
+        int right = x%10;
+        x/=10;
+        int mid = x%10;
+        x/=10;
+
+        while(x>0){
+            int left = x%10;
+            x/=10;
+
+            if(mid>right && mid>left || mid<left && mid < right){
+                ans++;
+            } 
+
+            right = mid;
+            mid = left;
+        }
+        return ans;
+    }
+
+    int totalWaviness(int num1, int num2) {
+        int ans=0;
+        for(int i=num1 ; i<=num2 ; i++){
+            if(i/100>0){
+                ans+=waviness(i);
+            }
+        }
+        return ans;
+    }
+};
