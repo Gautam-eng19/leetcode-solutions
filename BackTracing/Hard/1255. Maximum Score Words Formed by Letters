@@ -1,0 +1,54 @@
+class Solution {
+public:
+
+    int dfs(vector<string>& words, int i,vector<int>& count , vector<int>& score){
+
+        if(i==words.size()){
+            return 0;
+        }
+
+        int skip = dfs(words,i+1 , count,score);
+
+        vector<int>needed(26,0);
+        bool possible = true;
+        int wordScore = 0;
+
+        for(char c : words[i]){
+            int ind = c-'a';
+            needed[ind]++;
+            wordScore+= score[ind];
+
+        }
+
+        for(int j =0;j<26;j++){
+            if(needed[j]> count[j]){
+                possible = false;
+                break;
+            }
+        }
+
+        int take =0;
+        if(possible){
+            for(int i =0 ; i< 26;i++){
+                count[i]-=needed[i];
+            }
+        
+            take = wordScore + dfs(words,i+1,count,score);
+
+            for(int i=0;i<26;i++){
+                count[i]+= needed[i];
+            }
+        }
+        return max(take,skip);
+    }
+
+    int maxScoreWords(vector<string>& words, vector<char>& letters, vector<int>& score) {
+        vector<int> count(26,0);
+
+        for(char c: letters){
+            count[c-'a']++;
+        }
+
+        return dfs(words,0,count,score);
+    }
+};
