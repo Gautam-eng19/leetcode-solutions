@@ -1,0 +1,87 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* prevL1 = NULL;
+        ListNode* prevL2 = NULL;
+        ListNode* next = NULL;
+        ListNode* curr = l1;
+        int size1=0 , size2=0;
+        while(curr!=NULL){
+            size1++;
+            next = curr->next;
+            curr->next = prevL1;
+            prevL1 = curr;
+            curr = next;
+        }
+        curr = l2;
+        next = NULL;
+
+        while(curr!=NULL){
+            size2++;
+            next = curr->next;
+            curr->next = prevL2;
+            prevL2 = curr;
+            curr = next;
+        }
+        
+        ListNode* p1 = prevL1;
+        ListNode* p2 = prevL2;
+
+        ListNode* result = NULL;
+        ListNode* tail = NULL;
+
+        int carry = 0;
+
+         while(p1 != NULL || p2 != NULL || carry != 0) {
+
+            int sum = carry;
+
+            if(p1 != NULL) {
+                sum += p1->val;
+                p1 = p1->next;
+            }
+
+            if(p2 != NULL) {
+                sum += p2->val;
+                p2 = p2->next;
+            }
+
+            int digit = sum % 10;
+            carry = sum / 10;
+
+            ListNode* node = new ListNode(digit);
+
+            if(result == NULL) {
+                result = node;
+                tail = node;
+            }
+            else {
+                tail->next = node;
+                tail = node;
+            }
+        }
+
+        // Reverse result back
+        curr = result;
+        ListNode* prev = NULL;
+
+        while(curr != NULL) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
+    }
+};
