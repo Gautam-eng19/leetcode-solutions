@@ -1,0 +1,40 @@
+class Solution {
+public:
+    string findLexSmallestString(string s, int a, int b) {
+        set<string> visited;
+        queue<string> q;
+
+        visited.insert(s);
+        q.push(s);
+
+        string ans = s;
+
+        while (!q.empty()) {
+            string cur = q.front();
+            q.pop();
+
+            ans = min(ans, cur);
+
+            string add = cur;
+
+            for (int i = 1; i < add.size(); i += 2) {
+                add[i] = ((add[i] - '0' + a) % 10) + '0';
+            }
+
+            if (!visited.count(add)) {
+                visited.insert(add);
+                q.push(add);
+            }
+
+            string rotate = cur.substr(cur.size() - b);
+            rotate += cur.substr(0, cur.size() - b);
+
+            if (!visited.count(rotate)) {
+                visited.insert(rotate);
+                q.push(rotate);
+            }
+        }
+
+        return ans;
+    }
+};
