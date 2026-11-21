@@ -1,0 +1,79 @@
+class Solution {
+public:
+    vector<int> findSubtreeSizes(vector<int>& parent, string s) {
+        int n = parent.size();
+
+        vector<vector<int>> adj(n);
+        for (int i = 1; i < n; i++) {
+            adj[parent[i]].push_back(i);
+        }
+
+        vector<int> newParent(n, -1);
+        vector<int> last(26, -1);
+        vector<int> prev(n, -1);
+
+        // Step 1: Find new parents using original tree
+        stack<pair<int, bool>> st;
+        st.push({0, false});
+
+        while (!st.empty()) {
+            auto [u, exit] = st.top();
+            st.pop();
+
+            int c = s[u] - 'a';
+
+            if (exit) {
+                last[c] = prev[u];
+                continue;
+            }
+
+            prev[u] = last[c];
+
+            if (u != 0) {
+                newParent[u] = (last[c] != -1)
+                                ? last[c] : parent[u];
+            }
+
+            last[c] = u;
+
+            st.push({u, true});
+
+            for (int i = adj[u].size() - 1; i >= 0; i--) {
+                st.push({adj[u][i], false});
+            }
+        }
+
+        // Step 2: Build the modified tree
+        vector<vector<int>> tree(n);
+
+        for (int i = 1; i < n; i++) {
+            tree[newParent[i]].push_back(i);
+        }
+
+        // Step 3: Get traversal order
+        vector<int> order;
+        stack<int> stk;
+        stk.push(0);
+
+        while (!stk.empty()) {
+            int u = stk.top();
+            stk.pop();
+
+            order.push_back(u);
+
+            for (int v : tree[u]) {
+                stk.push(v);
+            }
+        }
+
+        // Step 4: Calculate subtree sizes
+        vector<int> ans(n, 1);
+
+        for (int i = n - 1; i > 0; i--) {
+            int u = order[i];
+            ans[newParent[u]] += ans[u];
+        }
+
+        return ans;
+    }
+};
