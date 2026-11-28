@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int maximumSaleItems(vector<vector<int>>& items, int budget) {
+        int maxF = 0, minP = INT_MAX;
+
+        for (auto& item : items) {
+            maxF = max(maxF, item[0]);
+            minP = min(minP, item[1]);
+        }
+
+        vector<int> freq(maxF + 1, 0);
+
+        for (auto& item : items) {
+            freq[item[0]]++;
+        }
+
+        vector<int> total(maxF + 1, 0);
+
+        for (int i = 1; i <= maxF; i++) {
+            for (int j = i; j <= maxF; j += i) {
+                total[i] += freq[j];
+            }
+        }
+
+        vector<pair<int, long long>> bonus;
+
+        for (auto& item : items) {
+            int price = item[1];
+            int gifts = total[item[0]] - 1;
+
+            if (gifts > 0 && price < 2LL * minP) {
+                bonus.push_back({price, gifts});
+            }
+        }
+
+        sort(bonus.begin(), bonus.end());
+
+        long long ans = 0, rem = budget;
+
+        for (auto& [price, gifts] : bonus) {
+            long long take = min(rem / price, (long long)gifts);
+            ans += take * 2;
+            rem -= take * price;
+        }
+
+        ans += rem / minP;
+
+        return (int)ans;
+    }
+};
